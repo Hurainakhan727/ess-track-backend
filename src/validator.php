@@ -18,7 +18,6 @@ class Validator {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'Please enter a valid email address';
         }
-        // Pakistan phone: 11 digits (03XX-XXXXXXX) ya international format
         $cleanPhone = preg_replace('/[\s\-\(\)]/', '', $phone);
         if (!preg_match('/^(\+92|0)\d{10}$/', $cleanPhone) && !preg_match('/^\d{11}$/', $cleanPhone)) {
             $errors['phone'] = 'Please enter a valid 11-digit phone number (e.g. 03001234567)';

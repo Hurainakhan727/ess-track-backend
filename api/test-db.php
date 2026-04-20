@@ -1,5 +1,4 @@
 <?php
-// Database Connectivity Test
 require_once '../config/database.php';
 
 header('Content-Type: application/json');
@@ -9,7 +8,6 @@ try {
     $conn = $database->getConnection();
 
     if ($conn) {
-        // Test query to check if table exists
         $result = $conn->query("SHOW TABLES LIKE 'inquiries'");
         $tableExists = $result->num_rows > 0;
 

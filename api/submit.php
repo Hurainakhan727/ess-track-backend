@@ -13,7 +13,7 @@ if (!$db) {
 
 $inquiry = new Inquiry($db);
 
-// JSON body bhi support karna (fetch API ke liye)
+
 $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
 if (strpos($contentType, 'application/json') !== false) {
     $data = json_decode(file_get_contents('php://input'), true);
@@ -29,7 +29,6 @@ $vehicleType= trim($data['vehicleType'] ?? '');
 $pkg        = trim($data['interested_package'] ?? 'Not Sure');
 $message    = trim($data['message']    ?? '');
 
-// ---- VALIDATION ----
 $validation = Validator::validateInquiry($data);
 if (!empty($validation['errors'])) {
     Response::send(false, 'Validation failed. Please correct the errors below.', ['errors' => $validation['errors']]);
@@ -37,12 +36,10 @@ if (!empty($validation['errors'])) {
 
 $cleanPhone = $validation['cleanPhone'];
 
-// ---- SPAM CHECK: Ek phone se max 3 inquiries ----
 if ($inquiry->checkSpam($cleanPhone)) {
     Response::send(false, 'Maximum 3 inquiries allowed per phone number. For further assistance, please call: 021-34330887-88');
 }
 
-// ---- INSERT INTO DATABASE ----
 $insertData = [
     'first_name' => $first_name,
     'last_name' => $last_name,
